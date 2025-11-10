@@ -1,5 +1,7 @@
-0. create and activate venv with CSB packages; install if needed; if you installed these outside of a venv you don't need to do this part
+0. create and activate venv with CSB packages; install packages if needed (if you installed these outside of a venv during the course you don't need to do this part)
 ```
+python -m venv venv
+source venv/bin/activate
 python3 -m pip install django requests
 ```
 1. enter the directory with manage.py
