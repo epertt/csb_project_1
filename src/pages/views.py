@@ -6,7 +6,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import connection
 from .models import DiaryEntry
-#import logging
+
+import logging
+
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 def index(request):
     if request.user.is_authenticated:
@@ -32,7 +36,7 @@ def register_view(request):
         # fix:      use django's built in user creation which automatically hashes passwords
         # A03:      injection 
         # problem:  user can enter a username or password that breaks out of the SQL string using quotes (e.g., ' OR '1'='1)
-        # fix:      use django's built in user creation or at least parameterized queries
+        # fix:      use django's built in user creation (commented a few lines below this) or at least use parameterized queries
         
         cursor = sqlite3.connect('src/db.sqlite3').cursor()
         sql = f"INSERT INTO auth_user(password, username, first_name, last_name, is_superuser, is_staff, is_active, email, date_joined) VALUES('{password}', '{username}', '', '', 0, 0, 1, '', '{current_date}')"
@@ -41,7 +45,13 @@ def register_view(request):
         cursor.close()
         user = User.objects.get(username=username)
 
-        # fix: comment out everything between the last comment and this comment before uncommenting the next line
+        # note: comment out everything between the last comment and this comment before uncommenting the next lines
+        # note: the try-except should be combined with the fix for FLAW 5 in the bottom of settings.py 
+        #try:
+        #    validate_password(password)
+        #except ValidationError as e:
+        #    return render(request, 'register.html', {'error': e})
+        #
         #user = User.objects.create_user(username=username, password=password)
 
         login(request, user)
@@ -74,7 +84,7 @@ def login_view(request):
             # fix:      add logging
             #
             # note: only logs to stdout; logging to a file would generally be a better choice
-            # logger = logging.getLogger(__name__); logger.warning(f'{datetime.now()}: \!/ failed login by user: {username} from IP: {request.META.get("REMOTE_ADDR")} \!/')
+            #logger = logging.getLogger(__name__); logger.warning(f'{datetime.now()}: \!/ failed login by user: {username} from IP: {request.META.get("REMOTE_ADDR")} \!/')
             return render(request, 'login.html', {'error': 'user doesn\'t exist or bad password'})
     
     return render(request, 'login.html')
