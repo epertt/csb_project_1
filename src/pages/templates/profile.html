@@ -1,0 +1,24 @@
+<html>
+<body>
+    <h1>profile</h1>
+    <p><strong>username:</strong> {{ user.username }}</p>
+    <p><strong>entries:</strong> {{ entry_count }}</p>
+    {% if entries %}
+    <ol>
+        {% for entry in entries %}
+        <li>
+            <strong>{{ entry.title }}</strong> - {{ entry.date }}
+            <br>
+            {{ entry.content }} ~<strong>{{entry.user}}</strong>
+            <br>
+        </li>
+        <br>
+        {% endfor %}
+    </ol>
+    {% else %}
+    <p>no entries yet</p>
+    {% endif %}
+    
+    <p><a href="/diary">back</a></p>
+</body>
+</html>

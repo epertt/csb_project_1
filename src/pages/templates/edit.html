@@ -1,0 +1,17 @@
+<html>
+<body>
+    <h1>edit entry</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>Title:</label><br>
+        <input type="text" name="title" value="{{ entry.title }}" required size="50"><br><br>
+        
+        <label>content:</label><br>
+        <textarea name="content" required rows="10" cols="50">{{ entry.content }}</textarea><br><br>
+        
+        <input type="submit" value="update entry">
+    </form>
+    
+    <p><a href="/read/{{ entry.id }}">cancel</a> | <a href="/diary">back</a></p>
+</body>
+</html>

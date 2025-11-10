@@ -1,0 +1,17 @@
+<html>
+<body>
+    <h1>new entry</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>title:</label><br>
+        <input type="text" name="title" required size="50"><br><br>
+        
+        <label>content:</label><br>
+        <textarea name="content" required rows="10" cols="50"></textarea><br><br>
+        
+        <input type="submit" value="save entry">
+    </form>
+    
+    <p><a href="/diary">back</a></p>
+</body>
+</html>

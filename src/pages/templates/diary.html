@@ -1,0 +1,34 @@
+<html>
+<body>
+    <h1>hi {{ username }}</h1>
+    <p>
+        <a href="/add">add new entry</a> | 
+        <a href="/profile?uid={{ uid }}">profile</a> | 
+        <a href="/logout">logout</a>
+    </p>
+    <h2>entries</h2>
+    {% if entries %}
+    <ol>
+        {% for entry in entries %}
+        <li>
+            <strong>{{ entry.title }}</strong> - {{ entry.date }}
+            <br>
+            <!-- A03:                injection
+                 problem:            html/javascript code in diary entries is not escaped -->
+            <!-- reason for feature: maybe users wanted to be able to style their diary entries (bold text, etc.) -->
+            <!-- fix:                remove |safe (downside: users can't style their diary entries) -->
+            {{ entry.content|safe }} ~<strong>{{entry.user}}</strong>
+            <!-- {{ entry.content }} ~<strong>{{entry.user}}</strong>-->
+            <br>
+            <a href="/read/{{ entry.id }}">read</a> | 
+            <a href="/edit/{{ entry.id }}">edit</a> | 
+            <a href="/delete/{{ entry.id }}">delete</a>
+        </li>
+        <br>
+        {% endfor %}
+    </ol>
+    {% else %}
+    <p>no entries yet</p>
+    {% endif %}
+</body>
+</html>

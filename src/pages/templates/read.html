@@ -1,0 +1,14 @@
+<html>
+<body>
+    <h1>{{ entry.title }} by {{ entry.user }}</h1>
+    <p><strong>date:</strong> {{ entry.date }}</p>
+    
+    <p>{{ entry.content }} ~<strong>{{entry.user}}</strong></p>
+    
+    <p>
+        <a href="/edit/{{ entry.id }}">edit</a> | 
+        <a href="/delete/{{ entry.id }}">delete</a> | 
+        <a href="/diary">back</a>
+    </p>
+</body>
+</html>
