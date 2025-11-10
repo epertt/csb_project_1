@@ -34,7 +34,7 @@ def register_view(request):
         # problem:  user can enter a username or password that breaks out of the SQL string using quotes (e.g., ' OR '1'='1)
         # fix:      use django's built in user creation or at least parameterized queries
         
-        cursor = sqlite3.connect('db.sqlite3').cursor()
+        cursor = sqlite3.connect('src/db.sqlite3').cursor()
         sql = f"INSERT INTO auth_user(password, username, first_name, last_name, is_superuser, is_staff, is_active, email, date_joined) VALUES('{password}', '{username}', '', '', 0, 0, 1, '', '{current_date}')"
         cursor.execute(sql)
         cursor.connection.commit()
@@ -59,7 +59,7 @@ def login_view(request):
         # problem:  user can enter a username or password that breaks out of the SQL string using quotes (e.g., ' OR '1'='1)
         # fix:      use django's built in authentication or at least parameterized queries instead
 
-        cursor = sqlite3.connect('db.sqlite3').cursor()
+        cursor = sqlite3.connect('src/db.sqlite3').cursor()
         sql = f"SELECT * FROM auth_user WHERE username='{username}' AND password='{password}'"
         user = cursor.execute(sql).fetchone()
         #user = authenticate(request, username=username, password=password)
